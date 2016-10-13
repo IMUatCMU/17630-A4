@@ -105,6 +105,13 @@ string Data::getBirth()
     return this->birth;
 }
 
+int Data::compare(Data *other)
+{
+    if (this->getLastName() == other->getLastName())
+        return 0;
+    return this->getLastName() < other->getLastName() ? -1 : 1;
+}
+
 string Data::toString()
 {
     stringstream ss;

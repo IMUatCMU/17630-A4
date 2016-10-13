@@ -12,10 +12,11 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include "comparable.hpp"
 
 using namespace std;
 
-class Data
+class Data : public Comparable<Data>
 {
 private:
     string rawData;
@@ -46,6 +47,7 @@ public:
     int getAge();                           // return the age
     string getBirth();                      // return the birth
     string toString();                      // return a string representation of this object
+    int compare(Data *other);               // implement comparable
     ~Data() {};                             // default destructor
 };
 

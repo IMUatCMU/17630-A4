@@ -66,6 +66,16 @@ void Node::setPrev(Node *newNode)
     }
 }
 
+void Node::setData(Data *newData)
+{
+    this->data = newData;
+}
+
+int Node::compare(Node *other)
+{
+    return this->getData()->compare(other->getData());
+}
+
 Node::~Node()
 {
     this->prev = NULL;

@@ -12,6 +12,7 @@
 #define linked_list_hpp
 
 #include <stdio.h>
+#include <functional>
 #include "list.hpp"
 #include "node.hpp"
 
@@ -21,6 +22,7 @@ private:
     Node* head;
     Node* tail;
     int size;
+    void addPreservingOrderInner(Node *elem, int start, int end);
     
 public:
     LinkedList();           // default constructor
@@ -31,6 +33,13 @@ public:
     Node* get(int index);
     void remove(int index);     // note this method only removes the node from the list, it does not release its memory
     int count();
+    void traverse(std::function<void(Node*)> cb);
+    
+    // implements Sortable virtual methods
+    int length();
+    void swap(int i, int j);
+    bool less(int i, int j);
+    void addPreservingOrder(Node *elem);
 };
 
 #endif /* linked_list_hpp */

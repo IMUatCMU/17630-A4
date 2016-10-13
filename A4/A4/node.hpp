@@ -16,10 +16,11 @@
 #include <stdio.h>
 #include <string>
 #include "data.hpp"
+#include "comparable.hpp"
 
 using namespace std;
 
-class Node
+class Node : public Comparable<Node>
 {
 private:
     Data    *data;      // string field to store the data
@@ -33,6 +34,7 @@ public:
     bool hasPrev();     // returns true if the *prev pointer isn't null, false otherwise
     bool hasNext();     // return true if the *next pointer isn't null, false otherwise
     Data* getData();   // return the data
+    void setData(Data *newData); // set new data
     
     // set the *next pointer of this node and *prev of the new node
     // also supports new node being null
@@ -41,6 +43,9 @@ public:
     // set the *prev pointer of this node and *next of the new node
     // also supports new node being null
     void setPrev(Node *newNode);
+    
+    // implement comparable interface
+    int compare(Node *other);
     
     ~Node();            // destructor
 };

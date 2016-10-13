@@ -16,6 +16,8 @@
 #include "data.hpp"
 #include "bt_node.hpp"
 #include "binary_tree.hpp"
+#include "sort.hpp"
+#include "quick_sort.hpp"
 
 #include <fstream>
 #include <string>
@@ -66,43 +68,15 @@ static Queue* getDataElements()
     return q;
 }
 
-void testBTree()
-{
-    BinaryTree *tree = new BinaryTree();
-    tree->add(new BinaryTreeNode(new Data("Commodore James Norrington, 1, 12-29-1677")));
-    tree->add(new BinaryTreeNode(new Data("Lord Cutler Beckett, 2, 4-28-1675")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 3, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 4, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 5, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 6, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 7, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 8, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 9, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 10, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 11, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 12, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 13, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 14, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 15, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 16, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 17, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 18, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 19, 6-10-1612")));
-    tree->add(new BinaryTreeNode(new Data("Davy Jones, 20, 6-10-1612")));
-    
-    cout << "\n" << "Press any key to continue..." << "\n";
-    cin.get();
-}
-
 void pressAnyKeyToContinue()
 {
     cout << "\n" << "Press any key to continue..." << "\n";
     cin.get();
 }
 
-int main(int argc, const char * argv[]) {
 
-    testBTree();
+
+int main(int argc, const char * argv[]) {
     
     Queue *q0 = getDataElements();
     if (!q0 || q0->count() == 0)
@@ -145,6 +119,7 @@ int main(int argc, const char * argv[]) {
         Node *n = q1->poll();
         tree->add(new BinaryTreeNode(n->getData()));
     }
+    delete (LinkedListQueue*)q1;
     
     auto printLamda = [](BinaryTreeNode *n)->void {
         cout << n->getData()->toString() << "\n";
@@ -161,7 +136,30 @@ int main(int argc, const char * argv[]) {
     };
     tree->inOrder(addToListLamda);
     delete tree;
-    // TODO Print the list, also lamda
+    auto printListLamda = [](Node* n)->void{
+        cout << n->getData()->toString() << "\n";
+    };
+    list->traverse(printListLamda);
+    pressAnyKeyToContinue();
+    
+    Sort *qsort = new QuickSort();
+    qsort->sort(list);
+    list->traverse(printListLamda);
+    pressAnyKeyToContinue();
+    
+    string input = "";
+    cout << "Please enter another entry:" << "\n";
+    getline(cin, input);
+    
+    Data *inputData = new Data(input);
+    int rc = 0;
+    if (!(inputData->isValid(&rc)))
+    {
+        cout << "Input not valid: " << rc << "\n";
+        return -1;
+    }
+    list->addPreservingOrder(new Node(inputData));
+    list->traverse(printListLamda);
     pressAnyKeyToContinue();
     
     return 0;

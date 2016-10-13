@@ -13,17 +13,21 @@
 #define list_hpp
 
 #include <stdio.h>
+#include <functional>
 #include "node.hpp"
+#include "sortable.hpp"
 
-class List
+class List : public Sortable
 {
     
 public:
-    virtual void add(int index, Node *elem) = 0;    // add the specified element at an index
-    virtual Node* get(int index) = 0;               // get the element at specified index, NULL if not existing
-    virtual void remove(int index) = 0;             // remove the element at specified index
-    virtual int count() = 0;                        // count the size of the list
-    virtual ~List() {}                              // empty virtual descructor
+    virtual void add(int index, Node *elem) = 0;                // add the specified element at an index
+    virtual Node* get(int index) = 0;                           // get the element at specified index, NULL if not existing
+    virtual void remove(int index) = 0;                         // remove the element at specified index
+    virtual int count() = 0;                                    // count the size of the list
+    virtual void traverse(std::function<void(Node*)> cb) = 0;   // traverse the list
+    virtual ~List() {}                                          // empty virtual descructor
+    virtual void addPreservingOrder(Node *elem) = 0;            // add to the subject preserving the original order
     
     void addFirst(Node* elem);                      // add the speciified element to the start of the list
     void addLast(Node* elem);                       // add the specified element to the end of the list

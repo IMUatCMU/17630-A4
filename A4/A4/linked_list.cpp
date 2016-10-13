@@ -7,6 +7,7 @@
 //
 
 #include "linked_list.hpp"
+#include <iostream>
 
 LinkedList::LinkedList()
 {
@@ -50,6 +51,7 @@ void LinkedList::add(int index, Node *elem)
             Node* p = this->get(index - 1);
             if (p != NULL)
             {
+                elem->setNext(p->getNext());
                 p->setNext(elem);
             }
         }
@@ -152,6 +154,74 @@ void LinkedList::remove(int index)
 int LinkedList::count()
 {
     return this->size;
+}
+
+void LinkedList::traverse(std::function<void(Node*)> cb)
+{
+    for (Node* n = this->head; n != NULL; n = n->getNext())
+    {
+        cb(n);
+    }
+}
+
+int LinkedList::length()
+{
+    return this->count();
+}
+
+void LinkedList::swap(int i, int j)
+{
+    Node *n1 = this->get(i), *n2 = this->get(j);
+    Data *temp = n1->getData();
+    n1->setData(n2->getData());
+    n2->setData(temp);
+}
+
+bool LinkedList::less(int i, int j)
+{
+    if (i == j)
+        return false;
+    return this->get(i)->compare(this->get(j)) == -1;
+}
+
+void LinkedList::addPreservingOrderInner(Node *elem, int start, int end)
+{
+    int l = start, r = end;
+    int mid = (l + r) / 2;
+    int comparison = this->get(mid)->compare(elem);
+    
+    if (l == mid)
+    {
+        int comparison2 = this->get(r)->compare(elem);
+        
+        
+        if (comparison >= 0)
+            this->add(l, elem);
+        else if (comparison2 >= 0)
+            this->add(l + 1, elem);
+        else
+            this->add(r + 1, elem);
+        return;
+    }
+    
+    if (comparison == 0)
+    {
+        this->add(mid + 1, elem);
+        return;
+    }
+    else if (comparison == 1)
+    {
+        this->addPreservingOrderInner(elem, l, mid);
+    }
+    else if (comparison == -1)
+    {
+        this->addPreservingOrderInner(elem, mid, r);
+    }
+}
+
+void LinkedList::addPreservingOrder(Node *elem)
+{
+    this->addPreservingOrderInner(elem, 0, this->count() - 1);
 }
 
 LinkedList::~LinkedList()
