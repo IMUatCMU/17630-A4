@@ -15,23 +15,24 @@
 
 #include <stdio.h>
 #include <string>
+#include "data.hpp"
 
 using namespace std;
 
 class Node
 {
 private:
-    string  data;       // string field to store the data
+    Data    *data;      // string field to store the data
     Node    *next;      // pointer to the next node
     Node    *prev;      // pointer to the previous node
 
 public:
-    Node(string data);  // constructor to accept data
+    Node(Data *data);   // constructor to accept data
     Node* getPrev();    // returns the prev pointer
     Node* getNext();    // returns the next pointer
     bool hasPrev();     // returns true if the *prev pointer isn't null, false otherwise
     bool hasNext();     // return true if the *next pointer isn't null, false otherwise
-    string getData();   // return the data
+    Data* getData();   // return the data
     
     // set the *next pointer of this node and *prev of the new node
     // also supports new node being null

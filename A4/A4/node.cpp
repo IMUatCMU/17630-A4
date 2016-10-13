@@ -8,7 +8,7 @@
 
 #include "node.hpp"
 
-Node::Node(string data)
+Node::Node(Data* data)
 {
     this->data = data;
     this->prev = NULL;
@@ -35,7 +35,7 @@ bool Node::hasNext()
     return this->next != NULL;
 }
 
-string Node::getData()
+Data* Node::getData()
 {
     return this->data;
 }
