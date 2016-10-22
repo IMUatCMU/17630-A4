@@ -184,41 +184,52 @@ bool LinkedList::less(int i, int j)
     return this->get(i)->compare(this->get(j)) == -1;
 }
 
+/*
+ * inner addPreservingOrder method fit for recursion.
+ */
 void LinkedList::addPreservingOrderInner(Node *elem, int start, int end)
 {
     int l = start, r = end;
     int mid = (l + r) / 2;
     int comparison = this->get(mid)->compare(elem);
     
+    // if the middle index equals the lower bound, we have a narrow enough range to determine
+    // the actual insertion index
     if (l == mid)
     {
-        int comparison2 = this->get(r)->compare(elem);
-        
+        int comparison2;
         
         if (comparison >= 0)
-            this->add(l, elem);
-        else if (comparison2 >= 0)
-            this->add(l + 1, elem);
+            this->add(l, elem); // lower is bigger, add to the left of lower
+        else if ((comparison2 = this->get(r)->compare(elem)) >= 0)  // right is bigger
+            this->add(l + 1, elem); // upper is bigger, add between lowe and upper
         else
-            this->add(r + 1, elem);
+            this->add(r + 1, elem); // bigger than upper, add to the right of upper
         return;
     }
     
+    // equals middle value, add directly after it
     if (comparison == 0)
     {
         this->add(mid + 1, elem);
         return;
     }
+    // middle is bigger, recurse on left sub list
     else if (comparison == 1)
     {
         this->addPreservingOrderInner(elem, l, mid);
     }
+    // middle is smaller, recurse on right sub list
     else if (comparison == -1)
     {
         this->addPreservingOrderInner(elem, mid, r);
     }
 }
 
+/*
+ * Add a new node by first locate insertion index using a binary search algorithm
+ * and then add the node by calling add(int, Node*) method.
+ */
 void LinkedList::addPreservingOrder(Node *elem)
 {
     this->addPreservingOrderInner(elem, 0, this->count() - 1);

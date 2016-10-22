@@ -7,6 +7,7 @@
 //
 
 #include "linked_list_queue.hpp"
+#include "linked_list.hpp"
 
 LinkedListQueue::LinkedListQueue()
 {

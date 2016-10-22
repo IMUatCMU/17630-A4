@@ -33,7 +33,7 @@ public:
     Node* get(int index);
     void remove(int index);     // note this method only removes the node from the list, it does not release its memory
     int count();
-    void traverse(std::function<void(Node*)> cb);
+    void traverse(std::function<void(Node*)> cb);   // traverse the list and invoke callback for each node
     
     // implements Sortable virtual methods
     int length();

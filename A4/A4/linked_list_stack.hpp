@@ -13,13 +13,13 @@
 
 #include <stdio.h>
 #include "stack.hpp"
-#include "linked_list.hpp"
+#include "list.hpp"
 #include "node.hpp"
 
 class LinkedListStack : public Stack
 {
 private:
-    LinkedList *list;
+    List *list;
     
 public:
     LinkedListStack();          // constructor

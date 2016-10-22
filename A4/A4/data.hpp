@@ -2,6 +2,9 @@
 //  data.hpp
 //  A4
 //
+//  Data is the class for holding the entry data. This class handles data parsing,
+//  validation and comparison
+//
 //  Created by Weinan Qiu on 2016-10-12.
 //  Copyright © 2016 17630. All rights reserved.
 //
@@ -33,6 +36,7 @@ private:
     string trim(string &str);
     
 public:
+    // validation error codes
     const int NO_FIRST_NAME = -1;
     const int NO_LAST_NAME = -2;
     const int NO_AGE = -3;

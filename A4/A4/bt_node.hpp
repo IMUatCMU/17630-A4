@@ -20,7 +20,7 @@ private:
     Data            *data;
     BinaryTreeNode  *left;
     BinaryTreeNode  *right;
-    int             balance;
+    int             balance;                // balance factor borrowed from AVL tree
     
 public:
     BinaryTreeNode(Data *data);             // constructor

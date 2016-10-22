@@ -21,6 +21,9 @@ BinaryTree::~BinaryTree()
     delete this->root;
 }
 
+/*
+ * Add binary tree node preserving the shape property
+ */
 void BinaryTree::add(BinaryTreeNode *node)
 {
     // first node
@@ -37,6 +40,9 @@ void BinaryTree::add(BinaryTreeNode *node)
     this->reBalance(this->root);
 }
 
+/*
+ * Inner add method, fit for recursion
+ */
 void BinaryTree::innerAdd(BinaryTreeNode* parent, BinaryTreeNode *node)
 {
     // right heavy or balanced, we add to the left
@@ -65,6 +71,11 @@ void BinaryTree::innerAdd(BinaryTreeNode* parent, BinaryTreeNode *node)
     }
 }
 
+/*
+ * Recalculate the balance factor, we do this by asking left and right branch
+ * for their refreshed balanced factor. So we can refresh the entire tree by
+ * calling this method on root.
+ */
 void BinaryTree::reBalance(BinaryTreeNode* parent)
 {
     int leftHeight = 0, rightHeight = 0;

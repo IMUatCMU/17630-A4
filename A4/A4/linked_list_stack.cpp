@@ -6,6 +6,7 @@
 //  Copyright © 2016 17630. All rights reserved.
 //
 
+#include "linked_list.hpp"
 #include "linked_list_stack.hpp"
 
 LinkedListStack::LinkedListStack()

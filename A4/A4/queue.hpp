@@ -17,8 +17,8 @@
 class Queue
 {
 public:
-    virtual void offer(Node* elem) = 0;         // offer a new element to the queue
-    virtual Node* poll() = 0;                   // poll an element from the queue, NULL if empty
+    virtual void offer(Node* elem) = 0;         // offer a new element to the queue (also known as enqueue)
+    virtual Node* poll() = 0;                   // poll an element from the queue, NULL if empty (also known as dequeue)
     virtual Node* peek() = 0;                   // return the element on top, but does not remove, return NULL if empty
     virtual int count() = 0;                    // return the size of this queue
     

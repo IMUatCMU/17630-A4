@@ -2,6 +2,9 @@
 //  list.cpp
 //  A4
 //
+//  Here we directly implement express methods that only replies on
+//  other interface methods.
+//
 //  Created by Weinan Qiu on 2016-10-11.
 //  Copyright © 2016 17630. All rights reserved.
 //

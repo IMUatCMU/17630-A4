@@ -11,15 +11,21 @@
 
 Data::Data(string rawData)
 {
-    vector<string> v1 = this->split(rawData, ',');
+    vector<string> v1 = this->split(rawData, ',');                  // split by comma
+    
+    // only parse when there are 3 tokens, if not 3 tokens, we don't do anything, the validation later on will
+    // mark this item as invalid.
     if (v1.size() == 3)
     {
-        this->birth = this->trim(v1.at(2));
-        this->age = this->trim(v1.at(1));
-        this->nameTokens = this->split(this->trim(v1.at(0)), ' ');
+        this->birth = this->trim(v1.at(2));                         // birth is the last token
+        this->age = this->trim(v1.at(1));                           // age is the second last
+        this->nameTokens = this->split(this->trim(v1.at(0)), ' ');  // split first token by space to be name tokens
     }
 }
 
+/*
+ * Trim any leading and trailing space
+ */
 string Data::trim(string &str)
 {
     size_t first = str.find_first_not_of(' ');
@@ -27,6 +33,9 @@ string Data::trim(string &str)
     return str.substr(first, (last - first + 1));
 }
 
+/*
+ * Split by a character into a vector of string
+ */
 vector<string> Data::split(string raw, char delim)
 {
     vector<string> v;
@@ -35,6 +44,9 @@ vector<string> Data::split(string raw, char delim)
     return v;
 }
 
+/*
+ * Validate data and return necessary error codes
+ */
 bool Data::isValid(int *code)
 {
     if (this->nameTokens.size() == 0)
@@ -55,6 +67,7 @@ bool Data::isValid(int *code)
         return false;
     }
     
+    // make sure age is a non-negative number
     try {
         int a = stoi(this->age);
         if (a < 0)
@@ -62,7 +75,8 @@ bool Data::isValid(int *code)
             *code = INVALID_AGE;
             return false;
         }
-    } catch (invalid_argument) {
+    }
+    catch (invalid_argument) {
         *code = INVALID_AGE;
         return false;
     }
@@ -73,6 +87,7 @@ bool Data::isValid(int *code)
         return false;
     }
     
+    // check birth format
     int mm, yy, dd;
     sscanf(this->birth.c_str(), "%2d-%2d-%4d", &mm, &dd, &yy);
     if ((mm < 1 || mm > 12) || (dd < 1 || dd > 31) || (yy < 0))
@@ -94,10 +109,9 @@ string Data::getLastName()
     return this->nameTokens.at(this->nameTokens.size() - 1);
 }
 
-// Assuming isValid has been verified, otherwise may throw error
 int Data::getAge()
 {
-    return stoi(this->age);
+    return stoi(this->age); // Assuming isValid has been verified, otherwise may throw error
 }
 
 string Data::getBirth()
@@ -105,6 +119,9 @@ string Data::getBirth()
     return this->birth;
 }
 
+/*
+ * Implementation to Comparable interface, here we compare by last name
+ */
 int Data::compare(Data *other)
 {
     if (this->getLastName() == other->getLastName())
@@ -112,6 +129,9 @@ int Data::compare(Data *other)
     return this->getLastName() < other->getLastName() ? -1 : 1;
 }
 
+/*
+ * Return a string representation of the data it holds
+ */
 string Data::toString()
 {
     stringstream ss;

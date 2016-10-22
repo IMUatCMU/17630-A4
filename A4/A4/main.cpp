@@ -24,15 +24,21 @@
 
 using namespace std;
 
+/*
+ * Accept user input for an absolute file path
+ */
 static string getFilePath()
 {
-//    string inputfilePath;
-//    cout << "Input the absolute file path for InputFile.dat" << "\n";
-//    cin >> inputfilePath;
-//    return inputfilePath;
-    return "/Users/davidiamyou/Downloads/InputFile.dat";
+    string inputfilePath;
+    cout << "Input the absolute file path for InputFile.dat" << "\n";
+    cin >> inputfilePath;
+    return inputfilePath;
 }
 
+/*
+ * Read input data file, parse each line into a Data element,
+ * queue each parsed item and return the queue
+ */
 static Queue* getDataElements()
 {
     Queue *q = new LinkedListQueue();
@@ -40,7 +46,6 @@ static Queue* getDataElements()
     string line;
     int lc = 1;
     
-    //file.open(getFilePath(), ios::in);
     file.open(getFilePath(), ios::in);
     while(file)
     {
@@ -49,15 +54,18 @@ static Queue* getDataElements()
             || (line == "\n")
             || (line == "\r")
             || (line == "\r\n")
-            || (line == "\n\r"))
+            || (line == "\n\r"))    // ignore a line that only contains return characters
             continue;
         
         Data *elem = new Data(line);
         int rc = 0;
+        
+        // drop the invalid line and print warning
         if (!(elem->isValid(&rc)))
         {
             cout << "Skipping line: " << lc << " due to: " << "validation failed" << "\n";
         }
+        // queue any valid line
         else
         {
             q->offer(new Node(elem));
@@ -68,23 +76,39 @@ static Queue* getDataElements()
     return q;
 }
 
+/*
+ * Convenience method to prompt "press any key to continue"
+ */
 void pressAnyKeyToContinue()
 {
     cout << "\n" << "Press any key to continue..." << "\n";
     cin.get();
 }
 
-
+/*
+ * Convenience method to print step notification message
+ */
+void notify(string message)
+{
+    cout << "\n**** " << message << " ****\n\n";
+}
 
 int main(int argc, const char * argv[]) {
     
+    notify("Welcome");
+    
+    /* Get data file from user */
     Queue *q0 = getDataElements();
     if (!q0 || q0->count() == 0)
     {
         cout << "No input detected. Exiting..." << "\n";
         return 0;
     }
+    notify("Data read into queue");
+    pressAnyKeyToContinue();
     
+    /* Dequeue, print and requeue */
+    notify("About to dequeue, print and requeue the elements of the queue.");
     int totalInputSize = q0->count();
     for (int i = 0; i < totalInputSize; i++)
     {
@@ -94,6 +118,8 @@ int main(int argc, const char * argv[]) {
     }
     pressAnyKeyToContinue();
     
+    /* Reverse the order */
+    notify("About to reverse the order of the elements.");
     Stack *s1 = new LinkedListStack();
     Queue *q1 = new LinkedListQueue();
     while (!q0->isEmpty())
@@ -113,6 +139,8 @@ int main(int argc, const char * argv[]) {
     }
     pressAnyKeyToContinue();
     
+    /* Add to binary tree */
+    notify("About to add to binary tree (maintaining shape)");
     BinaryTree *tree = new BinaryTree();
     while (!q1->isEmpty())
     {
@@ -121,36 +149,47 @@ int main(int argc, const char * argv[]) {
     }
     delete (LinkedListQueue*)q1;
     
+    /* preorder print */
+    notify("About to print tree in preorder");
     auto printLamda = [](BinaryTreeNode *n)->void {
         cout << n->getData()->toString() << "\n";
     };
     tree->preOrder(printLamda);
     pressAnyKeyToContinue();
     
+    /* postorder print */
+    notify("About to print tree in postorder");
     tree->postOrder(printLamda);
     pressAnyKeyToContinue();
     
+    /* Add to list from tree in inorder */
+    notify("About to add to list in inorder");
     List *list = new LinkedList();
     auto addToListLamda = [&](BinaryTreeNode *n)->void {
         list->addLast(new Node(n->getData()));
     };
     tree->inOrder(addToListLamda);
     delete tree;
+    
+    /* Print list */
+    notify("About to print list");
     auto printListLamda = [](Node* n)->void{
         cout << n->getData()->toString() << "\n";
     };
     list->traverse(printListLamda);
     pressAnyKeyToContinue();
     
+    /* Sort */
+    notify("About to quick sort list and print");
     Sort *qsort = new QuickSort();
     qsort->sort(list);
     list->traverse(printListLamda);
     pressAnyKeyToContinue();
     
+    /* Prompt user to entire a new entry */
     string input = "";
     cout << "Please enter another entry:" << "\n";
     getline(cin, input);
-    
     Data *inputData = new Data(input);
     int rc = 0;
     if (!(inputData->isValid(&rc)))
@@ -158,6 +197,8 @@ int main(int argc, const char * argv[]) {
         cout << "Input not valid: " << rc << "\n";
         return -1;
     }
+    
+    /* Add the new entry (preserving order) and print linked list */
     list->addPreservingOrder(new Node(inputData));
     list->traverse(printListLamda);
     pressAnyKeyToContinue();

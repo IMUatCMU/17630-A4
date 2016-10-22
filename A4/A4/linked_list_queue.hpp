@@ -11,12 +11,12 @@
 
 #include <stdio.h>
 #include "queue.hpp"
-#include "linked_list.hpp"
+#include "list.hpp"
 
 class LinkedListQueue : public Queue
 {
 private:
-    LinkedList *list;
+    List *list;
     
 public:
     LinkedListQueue();          // constructor

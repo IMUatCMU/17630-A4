@@ -10,6 +10,11 @@
 #include "linked_list.hpp"
 #include <iostream>
 
+/*
+ * Quick sort algorithm borrowed from the slides. The only modification
+ * is that we update the pivot index instead of maintaining a single pivot value
+ * for each iteration (since we now work with index)
+ */
 void QuickSort::quickSort(Sortable *sortable, int left, int right)
 {
     int pvtIndex, l = left, r = right;

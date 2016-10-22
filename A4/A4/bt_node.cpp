@@ -51,6 +51,9 @@ void BinaryTreeNode::appendRight(BinaryTreeNode *node)
     this->right = node;
 }
 
+/*
+ * Recursive count the node and report to parent
+ */
 int BinaryTreeNode::nodeCount()
 {
     if (this->isLeaf())
@@ -67,6 +70,9 @@ int BinaryTreeNode::nodeCount()
     return count + 1;
 }
 
+/*
+ * Height is defined as the max(left, right) + 1
+ */
 int BinaryTreeNode::height()
 {
     if (this->isLeaf())

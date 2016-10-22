@@ -40,6 +40,8 @@ Data* Node::getData()
     return this->data;
 }
 
+// Here we abstract some of the next,prev pointer setting in chaining
+// so the job by linked list would be easier
 void Node::setNext(Node *newNode)
 {
     if (this->hasNext())
@@ -53,6 +55,8 @@ void Node::setNext(Node *newNode)
     }
 }
 
+// Here we abstract some of the next,prev pointer setting in chaining
+// so the job by linked list would be easier
 void Node::setPrev(Node *newNode)
 {
     if (this->hasPrev())
